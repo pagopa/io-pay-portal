@@ -109,7 +109,7 @@ stages:
               sourcePath: '$(Pipeline.Workspace)/Bundle/*'
               azureSubscription: '$(STAGING_AZURE_SUBSCRIPTION)'
               destination: 'AzureBlob'
-              storage: '$(STAGING_STORAGE_ACCOUNT_NAME)'
+              storage: '$(STORAGE_ACCOUNT_NAME)'
               containerName: '$web'
             displayName: Deploy to container blob
 
@@ -130,7 +130,7 @@ stages:
               sourcePath: '$(Pipeline.Workspace)/Bundle/*'
               azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
               destination: 'AzureBlob'
-              storage: '$(PRODUCTION_STORAGE_ACCOUNT_NAME)'
+              storage: '$(STORAGE_ACCOUNT_NAME)'
               containerName: '$web'
             displayName: Deploy to container blob
 
@@ -140,5 +140,5 @@ stages:
               azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
               scriptLocation: inlineScript
               inlineScript: |
-                call az cdn endpoint purge -g $(PRODUCTION_RESOURCE_GROUP_NAME) -n $(PRODUCTION_CDN_ENDPOINT) --profile-name $(PRODUCTION_CDN_PROFILE_NAME) --content-paths "/*"
+                call az cdn endpoint purge -g $(RESOURCE_GROUP_NAME) -n $(CDN_ENDPOINT) --profile-name $(CDN_PROFILE_NAME) --content-paths "/*"
                 
