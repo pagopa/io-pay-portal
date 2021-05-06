@@ -57,10 +57,10 @@ steps:
       git checkout ${{ parameters.release_branch }}
     displayName: 'Checkout release branch'
 
-  # # Go to project folder (in case of multiple project under the same repo)
-  # - script: |
-  #     cd ${{ parameters.project_folder }}
-  #   displayName: "Go to project folder"
+  # Go to project folder (in case of multiple project under the same repo)
+  - script: |
+      cd ${{ parameters.project_folder }}
+    displayName: "Go to project folder"
         
   # setup Node runtime
   - task: UseNode@1
@@ -80,35 +80,35 @@ steps:
     condition: ne(variables.CACHE_RESTORED, 'true')
     
   # bump version
-  # - script: |
-  #     npm version ${{ parameters.semver }} -m "Bump version to %s [skip ci]"
-  #     NEXT_VERSION=$(node -p "require('./${{ parameters.project_folder }}/package.json').version")
-  #     RELEASE_TAG="v$NEXT_VERSION-RELEASE"
-  #     git tag $RELEASE_TAG
-  #   displayName: 'Version bump and tag'
-  # - script: |
-  #     NEXT_VERSION=$(node -p "require('./${{ parameters.project_folder }}/package.json').version")
-  #     HEAD_SHA=$(git rev-parse HEAD)
-  #     TITLE="Release $NEXT_VERSION"
-  #     TAG="v$NEXT_VERSION-RELEASE"
-  #     echo "##vso[task.setvariable variable=title]$TITLE"
-  #     echo "##vso[task.setvariable variable=sha]$HEAD_SHA"
-  #     echo "##vso[task.setvariable variable=tag]$TAG"
-  #   displayName: 'Set release variables'
+  - script: |
+      npm version ${{ parameters.semver }} -m "Bump version to %s [skip ci]"
+      NEXT_VERSION=$(node -p "require('./${{ parameters.project_folder }}/package.json').version")
+      RELEASE_TAG="v$NEXT_VERSION-RELEASE"
+      git tag $RELEASE_TAG
+    displayName: 'Version bump and tag'
+  - script: |
+      NEXT_VERSION=$(node -p "require('./${{ parameters.project_folder }}/package.json').version")
+      HEAD_SHA=$(git rev-parse HEAD)
+      TITLE="Release $NEXT_VERSION"
+      TAG="be/v$NEXT_VERSION-RELEASE"
+      echo "##vso[task.setvariable variable=title]$TITLE"
+      echo "##vso[task.setvariable variable=sha]$HEAD_SHA"
+      echo "##vso[task.setvariable variable=tag]$TAG"
+    displayName: 'Set release variables'
 
   # push new version
-  # - script: |
-  #     git push origin ${{ parameters.release_branch }} && git push --tags
-  #   displayName: 'Push to the release branch'
+  - script: |
+      git push origin ${{ parameters.release_branch }} && git push --tags
+    displayName: 'Push to the release branch'
 
   # create new releae
-  # - task: GitHubRelease@0
-  #   inputs:
-  #     gitHubConnection: ${{ parameters.gitHubConnection }}
-  #     repositoryName: $(Build.Repository.Name)
-  #     action: create
-  #     target: $(sha)
-  #     tagSource: manual
-  #     tag: $(tag)
-  #     title: $(title)
-  #     addChangelog: true
+  - task: GitHubRelease@0
+    inputs:
+      gitHubConnection: ${{ parameters.gitHubConnection }}
+      repositoryName: $(Build.Repository.Name)
+      action: create
+      target: $(sha)
+      tagSource: manual
+      tag: $(tag)
+      title: $(title)
+      addChangelog: true
