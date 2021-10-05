@@ -115,7 +115,7 @@ stages:
               azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
               scriptLocation: inlineScript
               inlineScript: |
-                call az storage blob sync --container $(BLOB_CONTAINER_NAME) --account-name iopstcdniopay -s "$(Pipeline.Workspace)\Bundle\dist\avviso" --include-pattern "avviso/*"
+                call az storage blob sync --container $(BLOB_CONTAINER_NAME) --account-name iopstcdniopay -s "$(Pipeline.Workspace)\Bundle\dist\avviso" -d avviso
     
           - task: AzureCLI@1
             displayName: 'Purge CDN'
