@@ -134,7 +134,7 @@ stages:
   # PROD deploy
   - stage: Deploy_PROD
     dependsOn:
-      - PROD_Approval
+      - UAT_TO_PROD_PROMOTION
     jobs:
       - job: 'Deploy_PROD'
         steps:
