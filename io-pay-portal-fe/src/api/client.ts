@@ -22,7 +22,7 @@ const fetchApi: typeof fetchWithTimeout = (fetch as any) as typeof fetchWithTime
 
 export const apiClient = createClient({
   baseUrl: getConfig("IO_PAY_PORTAL_API_HOST") as string,
-  basePath: "/api/checkout/payments/v1",
+  basePath: getConfig("IO_PAY_PORTAL_API_BASEPATH") as string,
   fetchApi,
 });
 
