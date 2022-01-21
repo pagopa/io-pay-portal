@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json()) 
 
-app.get("/api/checkout/payments/v1/payment-requests/:rptId", (_, res) => {
+app.get("/checkout/payments/v1/payment-requests/:rptId", (_, res) => {
   // test scenario for an error message
   if (_.params.rptId == "00000000000000000000000000000" ) {
     res.status(500).send("Error!");
@@ -47,7 +47,7 @@ app.get("/api/checkout/payments/v1/payment-requests/:rptId", (_, res) => {
   }
 });
 
-app.post("/api/payportal/v1/payment-activations", (_, res) => {
+app.post("/checkout/payments/v1/payment-activations", (_, res) => {
 
   if (_.body.rptId == "00000000000000000000000000099" ) {
     res.status(400).send( { detail: "PAA_PAGAMENTO_DUPLICATO" } );
@@ -67,7 +67,7 @@ app.post("/api/payportal/v1/payment-activations", (_, res) => {
 });
 
 app.get(
-  "/api/payportal/v1/payment-activations/:codiceContestoPagamento",
+  "/checkout/payments/v1/payment-activations/:codiceContestoPagamento",
   (_, res) => {
     res.send({
       idPagamento: "123455",

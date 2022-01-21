@@ -7,6 +7,7 @@ export interface IConfig {
   IO_PAY_PORTAL_PAY_WL_POLLING_ATTEMPTS: number;
   IO_PAY_PORTAL_ENV: string;
   IO_PAY_PORTAL_SITE_KEY: string;
+  IO_PAY_PORTAL_API_BASEPATH: string;
 }
 
 export function getConfig(param: keyof IConfig): string | Millisecond {
