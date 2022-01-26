@@ -28,6 +28,8 @@ app.get("/api/checkout/payments/v1/payment-requests/:rptId", (_, res) => {
     res.status(400).send( { detail: "PPT_SINTASSI_EXTRAXSD" } );
   } else if (_.params.rptId == "00000000000000000000000000004" ) {
     res.status(400).send( { detail: "UNKNOWN_ERROR" } );
+  } else if (_.params.rptId == "00000000000000000000000000003" ) {
+    res.status(400).send( { detail: "PPT_ERRORE_EMESSO_DA_PAA" } );
   } else if (_.params.rptId == "00000000000000000000000000010") {
     res.status(400).send( { detail: "PPT_PAGAMENTO_DUPLICATO" } );
   }else if (_.params.rptId == "00000000000000000000000000011") {
