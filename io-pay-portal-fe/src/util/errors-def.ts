@@ -236,6 +236,9 @@ export const PaymentResponses: Record<string, PaymentFaultErrorMessage> = {
   PAA_SYSTEM_ERROR: {
     category: PaymentFaultCategory.ERRORE_EC,
   },
+  PPT_ERRORE_EMESSO_DA_PAA: {
+    category: PaymentFaultCategory.ERRORE_EC,
+  },
   PAA_PAGAMENTO_DUPLICATO: {
     title: "Questo avviso è stato già pagato!",
     body:
