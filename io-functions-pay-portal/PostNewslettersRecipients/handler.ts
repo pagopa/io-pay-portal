@@ -114,7 +114,7 @@ const RecipientRequestMiddleware: IRequestMiddleware<
 
 export const recaptchaCheckTask = (
   recaptchaToken: string,
-  googleHost: string = "https://www.google.com"
+  googleHost: string = "https://www.recaptcha.net"
 ): TaskEither<Error, ResponseRecaptcha> =>
   tryCatch(
     () =>

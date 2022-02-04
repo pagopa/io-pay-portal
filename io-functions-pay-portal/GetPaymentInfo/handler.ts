@@ -86,7 +86,7 @@ const getPaymentInfoTask = (
 export const recaptchaCheckTask = (
   recaptchaResponse: string,
   recaptchaSecret: string,
-  googleHost: string = "https://www.google.com"
+  googleHost: string = "https://www.recaptcha.net"
 ): TaskEither<Error, ResponseRecaptcha> =>
   tryCatch(
     () =>
