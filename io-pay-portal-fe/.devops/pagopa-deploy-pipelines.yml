@@ -99,6 +99,9 @@ stages:
               api_host: $(CHECKOUT_API_HOST_UAT)
               env:  'UAT'
               api_basepath: '/checkout/payments/v1'
+              polling_attempts: '16'
+              polling_interval: '6000'
+              timeout: '10000'
               
           - publish: $(System.DefaultWorkingDirectory)/io-pay-portal-fe/dist
             artifact: BundleUAT
@@ -196,6 +199,9 @@ stages:
               api_host: $(CHECKOUT_API_HOST_PROD)
               env: 'PROD'
               api_basepath: '/checkout/payments/v1'
+              polling_attempts: '16'
+              polling_interval: '6000'
+              timeout: '10000'
 
           - publish: $(System.DefaultWorkingDirectory)/io-pay-portal-fe/dist
             artifact: BundlePROD
