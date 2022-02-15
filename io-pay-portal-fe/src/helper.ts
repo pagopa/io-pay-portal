@@ -86,7 +86,8 @@ export const getPaymentInfoTask = (
 export const activePaymentTask = (
   amountSinglePayment: ImportoEuroCents,
   paymentContextCode: CodiceContestoPagamento,
-  rptId: RptId
+  rptId: RptId,
+  recaptchaResponse: string
 ): TaskEither<string, PaymentActivationsPostResponse> =>
   tryCatch(
     () => {
@@ -98,6 +99,7 @@ export const activePaymentTask = (
           rptId,
           importoSingoloVersamento: amountSinglePayment,
           codiceContestoPagamento: paymentContextCode,
+          recaptchaResponse,
         },
       });
     },

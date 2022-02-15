@@ -49,6 +49,35 @@ if (OTCookieValue.indexOf(checkValue) > -1) {
   mixpanelInit();
 }
 
+// eslint-disable-next-line functional/no-let
+let recaptchaWidget: any;
+
+// eslint-disable-next-line functional/no-let
+let preActivationRecaptchaWidget: any;
+
+function renderRecaptcha(
+  recaptchaElementId: string,
+  callback: (recaptchaResponse: string) => Promise<void>
+) {
+  return grecaptcha.render(recaptchaElementId, {
+    sitekey: getConfig("IO_PAY_PORTAL_SITE_KEY"),
+    theme: "light",
+    size: "invisible",
+    badge: "inline",
+    callback,
+  });
+}
+
+// eslint-disable-next-line functional/immutable-data
+global.onRecaptchaLoad = function () {
+  recaptchaWidget = renderRecaptcha("recaptcha", global.recaptchaCallback);
+
+  preActivationRecaptchaWidget = renderRecaptcha(
+    "preActivationRecaptcha",
+    global.preActivationRecaptchaCallback
+  );
+};
+
 // eslint-disable-next-line sonarjs/cognitive-complexity
 document.addEventListener("DOMContentLoaded", () => {
   const inputFields =
@@ -99,6 +128,84 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorMessage: ErrorModal = getErrorMessageConv(r);
     modalWindowError(errorMessage);
   }
+
+  /**
+   * recaptchaCallback: call api to verify payment
+   */
+  // eslint-disable-next-line functional/immutable-data
+  (window as any).recaptchaCallback = async (recaptchaResponse: string) => {
+    error?.classList.add("d-none");
+    const paymentNoticeCode: string = fromNullable(
+      paymentNoticeCodeEl?.value
+    ).getOrElse("");
+    const organizationId: string = fromNullable(
+      organizationIdEl?.value
+    ).getOrElse("");
+    const rptId: RptId = `${organizationId}${paymentNoticeCode}`;
+
+    // recaptcha reset
+    await grecaptcha.reset(recaptchaWidget);
+
+    // api veryfy payment
+    await getPaymentInfoTask(rptId, recaptchaResponse)
+      .fold(
+        (r) => showErrorMessage(r),
+        (paymentInfo) => {
+          sessionStorage.setItem("paymentInfo", JSON.stringify(paymentInfo));
+          sessionStorage.setItem("rptId", rptId);
+          history.pushState(null, "", "/#stateCard");
+          // eslint-disable-next-line functional/immutable-data
+          document.body.scrollTop = 0; // For Safari
+          // eslint-disable-next-line functional/immutable-data
+          document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+          showPaymentInfo(paymentInfo);
+        }
+      )
+      .run();
+
+    document.body.classList.remove("loading");
+    if (stateCard) {
+      stateCard.setAttribute("aria-hidden", "false");
+    }
+    active?.focus();
+  };
+
+  // eslint-disable-next-line functional/immutable-data
+  global.preActivationRecaptchaCallback = async (recaptchaResponse: string) => {
+    const paymentInfo: string = fromNullable(
+      sessionStorage.getItem("paymentInfo")
+    ).getOrElse("");
+
+    // recaptcha reset
+    await grecaptcha.reset(preActivationRecaptchaWidget);
+
+    const rptId: RptId = fromNullable(
+      sessionStorage.getItem("rptId")
+    ).getOrElse("");
+
+    PaymentRequestsGetResponse.decode(JSON.parse(paymentInfo)).fold(
+      () => showActivationError(),
+      async (paymentInfo) =>
+        await activePaymentTask(
+          paymentInfo.importoSingoloVersamento,
+          paymentInfo.codiceContestoPagamento,
+          rptId,
+          recaptchaResponse
+        )
+          .fold(
+            (r) => {
+              document.body.classList.remove("loading");
+              showErrorMessage(r);
+            },
+            (_) =>
+              pollingActivationStatus(
+                paymentInfo.codiceContestoPagamento,
+                getConfig("IO_PAY_PORTAL_PAY_WL_POLLING_ATTEMPTS") as number
+              )
+          )
+          .run()
+    );
+  };
 
   if (inputFields) {
     for (const inputEl of Array.from(inputFields)) {
@@ -235,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
       /**
        * recaptcha challenge: get token running recaptchaCallback()
        */
-      await grecaptcha.execute();
+      await grecaptcha.execute(recaptchaWidget);
     }
   );
   // eslint-disable-next-line functional/immutable-data
@@ -246,47 +353,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.scrollTop = 0; // For Safari
     // eslint-disable-next-line functional/immutable-data
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-  };
-
-  /**
-   * recaptchaCallback: call api to verify payment
-   */
-  // eslint-disable-next-line functional/immutable-data
-  (window as any).recaptchaCallback = async (recaptchaResponse: string) => {
-    error?.classList.add("d-none");
-    const paymentNoticeCode: string = fromNullable(
-      paymentNoticeCodeEl?.value
-    ).getOrElse("");
-    const organizationId: string = fromNullable(
-      organizationIdEl?.value
-    ).getOrElse("");
-    const rptId: RptId = `${organizationId}${paymentNoticeCode}`;
-
-    // recaptcha reset
-    await grecaptcha.reset();
-
-    // api veryfy payment
-    await getPaymentInfoTask(rptId, recaptchaResponse)
-      .fold(
-        (r) => showErrorMessage(r),
-        (paymentInfo) => {
-          sessionStorage.setItem("paymentInfo", JSON.stringify(paymentInfo));
-          sessionStorage.setItem("rptId", rptId);
-          history.pushState(null, "", "/#stateCard");
-          // eslint-disable-next-line functional/immutable-data
-          document.body.scrollTop = 0; // For Safari
-          // eslint-disable-next-line functional/immutable-data
-          document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-          showPaymentInfo(paymentInfo);
-        }
-      )
-      .run();
-
-    document.body.classList.remove("loading");
-    if (stateCard) {
-      stateCard.setAttribute("aria-hidden", "false");
-    }
-    active?.focus();
   };
 
   back?.addEventListener(
@@ -307,35 +373,10 @@ document.addEventListener("DOMContentLoaded", () => {
       evt.preventDefault();
       document.body.classList.add("loading");
 
-      const paymentInfo: string = fromNullable(
-        sessionStorage.getItem("paymentInfo")
-      ).getOrElse("");
-
-      const rptId: RptId = fromNullable(
-        sessionStorage.getItem("rptId")
-      ).getOrElse("");
-
-      PaymentRequestsGetResponse.decode(JSON.parse(paymentInfo)).fold(
-        () => showActivationError(),
-        async (paymentInfo) =>
-          await activePaymentTask(
-            paymentInfo.importoSingoloVersamento,
-            paymentInfo.codiceContestoPagamento,
-            rptId
-          )
-            .fold(
-              (r) => {
-                document.body.classList.remove("loading");
-                showErrorMessage(r);
-              },
-              (_) =>
-                pollingActivationStatus(
-                  paymentInfo.codiceContestoPagamento,
-                  getConfig("IO_PAY_PORTAL_PAY_WL_POLLING_ATTEMPTS") as number
-                )
-            )
-            .run()
-      );
+      /**
+       * recaptcha challenge: get token running preActivationRecaptchaCallback()
+       */
+      await grecaptcha.execute(preActivationRecaptchaWidget);
     }
   );
 });
