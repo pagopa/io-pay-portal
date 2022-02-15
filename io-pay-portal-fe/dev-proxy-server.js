@@ -15,14 +15,12 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const app = express();
 
-const apiHost = "http://localhost:7071";
+const apiHost = "http://localhost:8080";
+const basepath = "/checkout/payments/v1";
 
 app.use(
-  createProxyMiddleware("/api/payportal/v1", {
+  createProxyMiddleware(basepath, {
     target: apiHost,
-    pathRewrite: {
-      "^/api/payportal/v1": "/api/v1",
-    },
   })
 );
 
