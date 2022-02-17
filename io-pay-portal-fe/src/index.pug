@@ -51,7 +51,6 @@ html(lang='it')
                                     .container
                                         .windowcont__bottom__wrap.d-flex
                                             div(id="recaptcha")
-                                            div(id="preActivationRecaptcha")
                                             button.btn.btn-primary.btn-sm.flex-grow-1(type="submit", data-lang="cta.continue", id="verify", disabled) Continua
                     div(id="stateCard", tabindex="1", aria-hidden="true", aria-live="polite").windowcont.px-4.px-md-0.d-none
                         .h2 Avviso di pagamento
@@ -71,6 +70,7 @@ html(lang='it')
                                 div.font-weight-bold.ml-auto(id="cf-pa")
                             .windowcont__bottom
                                 .container
+                                    div(id="preActivationRecaptcha")
                                     .windowcont__bottom__wrap.d-flex
                                         a.btn.btn-outline-primary.btn-sm.mr-2(href="#", data-lang="cta.cancel", id="back") Indietro
                                         button.btn.btn-primary.btn-sm.flex-grow-1(type="submit", data-lang="cta.continue", id="active") Paga questo avviso
