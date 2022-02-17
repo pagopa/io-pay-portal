@@ -176,12 +176,12 @@ document.addEventListener("DOMContentLoaded", () => {
       sessionStorage.getItem("paymentInfo")
     ).getOrElse("");
 
-    // recaptcha reset
-    await grecaptcha.reset(preActivationRecaptchaWidget);
-
     const rptId: RptId = fromNullable(
       sessionStorage.getItem("rptId")
     ).getOrElse("");
+
+    // recaptcha reset
+    await grecaptcha.reset(preActivationRecaptchaWidget);
 
     PaymentRequestsGetResponse.decode(JSON.parse(paymentInfo)).fold(
       () => showActivationError(),
