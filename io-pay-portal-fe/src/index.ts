@@ -16,6 +16,7 @@ import {
 } from "./util/errors";
 import { ErrorModal } from "./util/errors-def";
 import { mixpanelInit } from "./util/mixpanelHelperInit";
+import { Millisecond } from "italia-ts-commons/lib/units";
 
 declare const grecaptcha: any;
 declare const OneTrust: any;
@@ -67,6 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
     (document.getElementById("helpmodal") as HTMLInputElement) || null;
   const privacybtn: HTMLAnchorElement | null =
     (document.getElementById("privacy") as HTMLAnchorElement) || null;
+  const delayAlert: HTMLElement | null =
+    document.querySelector(".loader__delay") || null;
 
   // check if all fields are OK
   function fieldsCheck() {
@@ -283,6 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .run();
 
     document.body.classList.remove("loading");
+    delayAlert?.classList.remove("active");
     if (stateCard) {
       stateCard.setAttribute("aria-hidden", "false");
     }
@@ -307,6 +311,8 @@ document.addEventListener("DOMContentLoaded", () => {
       evt.preventDefault();
       document.body.classList.add("loading");
 
+      setTimeout(() => delayAlert?.classList.add("active"), getConfig("IO_PAY_PORTAL_PAY_WL_POLLING_ALERT") as Millisecond || 6000);
+
       const paymentInfo: string = fromNullable(
         sessionStorage.getItem("paymentInfo")
       ).getOrElse("");
@@ -326,6 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .fold(
               (r) => {
                 document.body.classList.remove("loading");
+                delayAlert?.classList.remove("active");
                 showErrorMessage(r);
               },
               (_) =>
