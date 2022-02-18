@@ -1,5 +1,6 @@
 import { fromNullable } from "fp-ts/lib/Option";
 import Tingle from "tingle.js";
+import { Millisecond } from "italia-ts-commons/lib/units";
 import { PaymentRequestsGetResponse } from "../generated/PaymentRequestsGetResponse";
 import { RptId } from "../generated/RptId";
 import {
@@ -16,7 +17,6 @@ import {
 } from "./util/errors";
 import { ErrorModal } from "./util/errors-def";
 import { mixpanelInit } from "./util/mixpanelHelperInit";
-import { Millisecond } from "italia-ts-commons/lib/units";
 
 declare const grecaptcha: any;
 declare const OneTrust: any;
@@ -311,7 +311,10 @@ document.addEventListener("DOMContentLoaded", () => {
       evt.preventDefault();
       document.body.classList.add("loading");
 
-      setTimeout(() => delayAlert?.classList.add("active"), getConfig("IO_PAY_PORTAL_PAY_WL_POLLING_ALERT") as Millisecond || 6000);
+      setTimeout(
+        () => delayAlert?.classList.add("active"),
+        (getConfig("IO_PAY_PORTAL_PAY_WL_POLLING_ALERT") as Millisecond) || 6000
+      );
 
       const paymentInfo: string = fromNullable(
         sessionStorage.getItem("paymentInfo")
