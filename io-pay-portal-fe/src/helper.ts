@@ -95,11 +95,11 @@ export const activePaymentTask = (
         EVENT_ID: PAYMENT_ACTIVATE_INIT.value,
       });
       return apiClient.activatePayment({
+        recaptchaResponse,
         body: {
           rptId,
           importoSingoloVersamento: amountSinglePayment,
           codiceContestoPagamento: paymentContextCode,
-          recaptchaResponse,
         },
       });
     },
