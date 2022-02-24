@@ -4,7 +4,7 @@
   "scripts": {
     "type-check": "tsc",
     "generate": "npm-run-all generate:*",
-    "generate:api": "rimraf generated && mkdir -p generated && gen-api-models --api-spec REMOVE_THIS_api/openapi.yml --no-strict --out-dir ./generated --request-types --response-decoders --client",
+    "generate:api": "rimraf generated && mkdir -p generated && gen-api-models --api-spec https://raw.githubusercontent.com/pagopa/io-pagopa-proxy/v1.1.2/api-spec/api-for-checkout.yaml --no-strict --out-dir ./generated --request-types --response-decoders --client",
     "lint": "eslint . -c .eslintrc.js --ext .ts,.tsx",
     "lint-autofix": "eslint . -c .eslintrc.js --ext .ts,.tsx --fix",
     "prebuild": "npm-run-all generate type-check",
