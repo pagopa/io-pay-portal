@@ -66,7 +66,11 @@ export const getPaymentInfoTask = (
         () => fromLeft("Errore recupero pagamento"),
         (responseType) => {
           const reason =
-            responseType.status === 200 ? "" : responseType.value?.detail;
+            responseType.status === 424
+              ? responseType.value?.detail_v2
+              : responseType.status === 400
+              ? responseType.value?.detail
+              : "";
           const EVENT_ID: string =
             responseType.status === 200
               ? PAYMENT_VERIFY_SUCCESS.value
@@ -74,9 +78,7 @@ export const getPaymentInfoTask = (
           mixpanel.track(EVENT_ID, { EVENT_ID, reason });
           return responseType.status !== 200
             ? fromLeft(
-                fromNullable(responseType.value?.detail).getOrElse(
-                  "Errore recupero pagamento"
-                )
+                fromNullable(reason).getOrElse("Errore recupero pagamento")
               )
             : taskEither.of(responseType.value);
         }
@@ -121,7 +123,11 @@ export const activePaymentTask = (
         () => fromLeft("Errore attivazione pagamento"),
         (responseType) => {
           const reason =
-            responseType.status === 200 ? "" : responseType.value?.detail;
+            responseType.status === 424
+              ? responseType.value?.detail_v2
+              : responseType.status === 400
+              ? responseType.value?.detail
+              : "";
           const EVENT_ID: string =
             responseType.status === 200
               ? PAYMENT_ACTIVATE_SUCCESS.value
@@ -130,7 +136,7 @@ export const activePaymentTask = (
 
           return responseType.status !== 200
             ? fromLeft(
-                fromNullable(responseType.value?.detail).getOrElse(
+                fromNullable(reason).getOrElse(
                   `Errore attivazione pagamento : ${responseType.status}`
                 )
               )

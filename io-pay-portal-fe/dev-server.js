@@ -17,23 +17,23 @@ app.get("/checkout/payments/v1/payment-requests/:rptId", (_, res) => {
   if (_.params.rptId == "00000000000000000000000000000" ) {
     res.status(500).send("Error!");
   } else if (_.params.rptId == "00000000000000000000000000009" ) {
-    res.status(400).send( { detail: "PAA_PAGAMENTO_DUPLICATO" } );
+    res.status(424).send( { detail_v2: "PAA_PAGAMENTO_DUPLICATO", detail: "PAYMENT_DUPLICATED" } );
   } else if (_.params.rptId == "00000000000000000000000000008" ) {
-    res.status(400).send( { detail: "PAA_PAGAMENTO_IN_CORSO" } );
+    res.status(424).send( { detail_v2: "PAA_PAGAMENTO_IN_CORSO", detail: "PAYMENT_ONGOING" } );
   } else if (_.params.rptId == "00000000000000000000000000007" ) {
-    res.status(400).send( { detail: "PAA_PAGAMENTO_SCADUTO" } );
+    res.status(424).send( { detail_v2: "PAA_PAGAMENTO_SCADUTO" , detail: "PAYMENT_EXPIRED" } );
   } else if (_.params.rptId == "00000000000000000000000000006" ) {
-    res.status(400).send( { detail: "PPT_DOMINIO_SCONOSCIUTO" } );
+    res.status(424).send( { detail_v2: "PPT_DOMINIO_SCONOSCIUTO", detail: "DOMAIN_UNKNOWN" } );
   } else if (_.params.rptId == "00000000000000000000000000005" ) {
-    res.status(400).send( { detail: "PPT_SINTASSI_EXTRAXSD" } );
+    res.status(424).send( { detail_v2: "PPT_SINTASSI_EXTRAXSD", detail: "GENERIC_ERROR" } );
   } else if (_.params.rptId == "00000000000000000000000000004" ) {
-    res.status(400).send( { detail: "UNKNOWN_ERROR" } );
+    res.status(424).send( { detail_v2: "UNKNOWN_ERROR", detail: "GENERIC_ERROR" } );
   } else if (_.params.rptId == "00000000000000000000000000003" ) {
-    res.status(400).send( { detail: "PPT_ERRORE_EMESSO_DA_PAA" } );
+    res.status(424).send( { detail_v2: "PPT_ERRORE_EMESSO_DA_PAA", detail: "GENERIC_ERROR" } );
   } else if (_.params.rptId == "00000000000000000000000000010") {
-    res.status(400).send( { detail: "PPT_PAGAMENTO_DUPLICATO" } );
+    res.status(424).send( { detail_v2: "PPT_PAGAMENTO_DUPLICATO", detail: "GENERIC_ERROR" } );
   }else if (_.params.rptId == "00000000000000000000000000011") {
-    res.status(400).send( { detail: "PPT_PAGAMENTO_IN_CORSO" } );
+    res.status(424).send( { detail_v2: "PPT_PAGAMENTO_IN_CORSO", detail: "GENERIC_ERROR" } );
   }
   else {
     res.send({
@@ -52,7 +52,7 @@ app.get("/checkout/payments/v1/payment-requests/:rptId", (_, res) => {
 app.post("/checkout/payments/v1/payment-activations", (_, res) => {
 
   if (_.body.rptId == "00000000000000000000000000099" ) {
-    res.status(400).send( { detail: "PAA_PAGAMENTO_DUPLICATO" } );
+    res.status(424).send( { detail_v2: "PAA_PAGAMENTO_DUPLICATO", detail: "PAGAMENTO_DUPLICATO" } );
   } else {
     res.send({
       codiceContestoPagamento: "6f69d150541e11ebb70c7b05c53756dd",
