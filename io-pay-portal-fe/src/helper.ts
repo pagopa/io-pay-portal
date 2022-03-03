@@ -86,7 +86,8 @@ export const getPaymentInfoTask = (
 export const activePaymentTask = (
   amountSinglePayment: ImportoEuroCents,
   paymentContextCode: CodiceContestoPagamento,
-  rptId: RptId
+  rptId: RptId,
+  recaptchaResponse: string
 ): TaskEither<string, PaymentActivationsPostResponse> =>
   tryCatch(
     () => {
@@ -94,6 +95,7 @@ export const activePaymentTask = (
         EVENT_ID: PAYMENT_ACTIVATE_INIT.value,
       });
       return apiClient.activatePayment({
+        recaptchaResponse,
         body: {
           rptId,
           importoSingoloVersamento: amountSinglePayment,
