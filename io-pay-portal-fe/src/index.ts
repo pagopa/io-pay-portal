@@ -344,10 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async (evt): Promise<void> => {
       evt.preventDefault();
       document.body.classList.add("loading");
-      setTimeout(
-        () => delayAlert?.classList.add("active"),
-        (getConfig("IO_PAY_PORTAL_PAY_WL_POLLING_ALERT") as Millisecond) || 6000
-      );
+      
       /**
        * recaptcha challenge: get token running recaptchaCallback()
        */
@@ -381,7 +378,10 @@ document.addEventListener("DOMContentLoaded", () => {
     async (evt): Promise<void> => {
       evt.preventDefault();
       document.body.classList.add("loading");
-
+      setTimeout(
+        () => delayAlert?.classList.add("active"),
+        (getConfig("IO_PAY_PORTAL_PAY_WL_POLLING_ALERT") as Millisecond) || 6000
+      );
       /**
        * recaptcha challenge: get token running preActivationRecaptchaCallback()
        */
