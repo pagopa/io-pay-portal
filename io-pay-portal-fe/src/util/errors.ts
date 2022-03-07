@@ -10,8 +10,12 @@ export const showActivationError = () => {
   const errorMessage: ErrorModal = {
     title: "Non riesco ad attivare il pagamento, per favore riprova",
   };
+  const delayAlert: HTMLElement | null =
+    document.querySelector(".loader__delay") || null;
+
   modalWindowError(errorMessage);
   document.body.classList.remove("loading");
+  delayAlert?.classList.remove("active");
 };
 
 // eslint-disable-next-line sonarjs/cognitive-complexity

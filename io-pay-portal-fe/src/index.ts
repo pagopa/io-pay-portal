@@ -1,5 +1,6 @@
 import { fromNullable } from "fp-ts/lib/Option";
 import Tingle from "tingle.js";
+import { Millisecond } from "italia-ts-commons/lib/units";
 import { PaymentRequestsGetResponse } from "../generated/PaymentRequestsGetResponse";
 import { RptId } from "../generated/RptId";
 import {
@@ -96,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
     (document.getElementById("helpmodal") as HTMLInputElement) || null;
   const privacybtn: HTMLAnchorElement | null =
     (document.getElementById("privacy") as HTMLAnchorElement) || null;
+  const delayAlert: HTMLElement | null =
+    document.querySelector(".loader__delay") || null;
 
   // check if all fields are OK
   function fieldsCheck() {
@@ -164,6 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .run();
 
     document.body.classList.remove("loading");
+    delayAlert?.classList.remove("active");
     if (stateCard) {
       stateCard.setAttribute("aria-hidden", "false");
     }
@@ -195,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
           .fold(
             (r) => {
               document.body.classList.remove("loading");
+              delayAlert?.classList.remove("active");
               showErrorMessage(r);
             },
             (_) =>
@@ -339,6 +344,10 @@ document.addEventListener("DOMContentLoaded", () => {
     async (evt): Promise<void> => {
       evt.preventDefault();
       document.body.classList.add("loading");
+      setTimeout(
+        () => delayAlert?.classList.add("active"),
+        (getConfig("IO_PAY_PORTAL_PAY_WL_POLLING_ALERT") as Millisecond) || 6000
+      );
       /**
        * recaptcha challenge: get token running recaptchaCallback()
        */
