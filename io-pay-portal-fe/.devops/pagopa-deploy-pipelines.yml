@@ -102,7 +102,8 @@ stages:
               polling_attempts: '16'
               polling_interval: '6000'
               timeout: '10000'
-              
+              timeout_polling_alert: '6000'
+
           - publish: $(System.DefaultWorkingDirectory)/io-pay-portal-fe/dist
             artifact: BundleUAT
 
@@ -202,6 +203,7 @@ stages:
               polling_attempts: '16'
               polling_interval: '6000'
               timeout: '10000'
+              timeout_polling_alert: '6000'
 
           - publish: $(System.DefaultWorkingDirectory)/io-pay-portal-fe/dist
             artifact: BundlePROD
