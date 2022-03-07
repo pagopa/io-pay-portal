@@ -344,7 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async (evt): Promise<void> => {
       evt.preventDefault();
       document.body.classList.add("loading");
-      
+
       /**
        * recaptcha challenge: get token running recaptchaCallback()
        */
