@@ -27,7 +27,11 @@ parameters:
 
   - name: 'timeout'
     type: string
-    default: '10000'  
+    default: '10000'
+
+  - name: 'timeout_polling_alert'
+    type: string
+    default: '6000'    
 
 steps:
 - bash: |
@@ -38,6 +42,7 @@ steps:
     echo 'IO_PAY_PORTAL_ENV: $IO_PAY_PORTAL_ENV'
     echo 'IO_PAY_PORTAL_SITE_KEY: $IO_PAY_PORTAL_SITE_KEY'
     echo 'IO_PAY_PORTAL_API_BASEPATH : $IO_PAY_PORTAL_API_BASEPATH'
+    echo 'IO_PAY_PORTAL_PAY_WL_POLLING_ALERT : $IO_PAY_PORTAL_PAY_WL_POLLING_ALERT'
     chmod +x env.sh && source env.sh
     yarn build
   workingDirectory: io-pay-portal-fe
@@ -49,5 +54,6 @@ steps:
     IO_PAY_PORTAL_ENV: ${{ parameters.env }}
     IO_PAY_PORTAL_SITE_KEY: ${{ parameters.site_key }}
     IO_PAY_PORTAL_API_BASEPATH: ${{ parameters.api_basepath }}
+    IO_PAY_PORTAL_PAY_WL_POLLING_ALERT: ${{ parameters.timeout_polling_alert }} 
   displayName: 'Build files'
   
