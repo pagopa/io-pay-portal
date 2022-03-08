@@ -129,7 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".donation__loading__error") || null;
   const donationsLoadingRetry: HTMLElement | null =
     document.querySelector(".donation__loading__retry") || null;
-  const donationsServiceURL: string = getConfig("IO_PAY_PORTAL_DONATIONS_URL") as string || "";
+  const donationsServiceURL: string =
+    (getConfig("IO_PAY_PORTAL_DONATIONS_URL") as string) || "";
 
   function createSlice(slice: any, cfID: string) {
     const clonedItemAmount = donationAmountTemplate?.cloneNode(true);
