@@ -33,6 +33,10 @@ parameters:
     type: string
     default: '6000'    
 
+  - name: 'donations_url'
+    type: string
+    default: ''
+
 steps:
 - bash: |
     echo 'IO_PAY_PORTAL_API_HOST: $IO_PAY_PORTAL_API_HOST'
@@ -43,6 +47,7 @@ steps:
     echo 'IO_PAY_PORTAL_SITE_KEY: $IO_PAY_PORTAL_SITE_KEY'
     echo 'IO_PAY_PORTAL_API_BASEPATH : $IO_PAY_PORTAL_API_BASEPATH'
     echo 'IO_PAY_PORTAL_PAY_WL_POLLING_ALERT : $IO_PAY_PORTAL_PAY_WL_POLLING_ALERT'
+    echo 'IO_PAY_PORTAL_DONATIONS_URL : $IO_PAY_PORTAL_DONATIONS_URL'
     chmod +x env.sh && source env.sh
     yarn build
   workingDirectory: io-pay-portal-fe
@@ -55,5 +60,6 @@ steps:
     IO_PAY_PORTAL_SITE_KEY: ${{ parameters.site_key }}
     IO_PAY_PORTAL_API_BASEPATH: ${{ parameters.api_basepath }}
     IO_PAY_PORTAL_PAY_WL_POLLING_ALERT: ${{ parameters.timeout_polling_alert }} 
+    IO_PAY_PORTAL_DONATIONS_URL: ${{ parameters.donations_url }}
   displayName: 'Build files'
   
