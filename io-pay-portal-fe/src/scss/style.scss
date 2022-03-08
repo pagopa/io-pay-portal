@@ -848,6 +848,51 @@ body {
   }
 }
 
+// DONA
+body.donation {
+  .form-check-group label {
+    line-height: 1.5;
+  }
+  .donation__edit {
+    display: none;
+    &.active {
+      display: inline;
+    }
+  }
+  .donation__amount {
+    .donation__amount__disclaimer {
+      display: none;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: none;
+
+      .donation__amount__disclaimer {
+        display: block;
+      }
+    }
+    input[type="radio"]:checked + label {
+      background-color: #0066cc;
+      color: #fff;
+    }
+  }
+  .donation__for {
+    & > .form-check.form-check-group:last-child {
+      box-shadow: none;
+    }
+    &.selectiondone {
+      .form-check.form-check-group:not(.selected) {
+        display: none !important;
+      }
+      .form-check.form-check-group {
+        box-shadow: none;
+      }
+    }
+  }
+}
+
 // MODAL animations
 
 @keyframes scale {
