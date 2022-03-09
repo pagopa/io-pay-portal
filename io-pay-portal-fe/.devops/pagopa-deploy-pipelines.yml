@@ -103,7 +103,7 @@ stages:
               polling_interval: '6000'
               timeout: '10000'
               timeout_polling_alert: '6000'
-              donations_url: 'https://api.uat.platform.pagopa.it/donations/availabledonations'
+              donations_url: 'https://api.uat.platform.pagopa.it/donations/api/v1/availabledonations'
 
           - publish: $(System.DefaultWorkingDirectory)/io-pay-portal-fe/dist
             artifact: BundleUAT
@@ -205,7 +205,7 @@ stages:
               polling_interval: '6000'
               timeout: '10000'
               timeout_polling_alert: '6000'
-              donations_url: 'https://api.platform.pagopa.it/donations/availabledonations'
+              donations_url: 'https://api.platform.pagopa.it/donations/api/v1/availabledonations'
 
           - publish: $(System.DefaultWorkingDirectory)/io-pay-portal-fe/dist
             artifact: BundlePROD
