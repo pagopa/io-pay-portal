@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const donationsServiceURL: string =
     (getConfig("IO_PAY_PORTAL_DONATIONS_URL") as string) || "";
 
-  function createSlice(slice: any, cfID: string) {
+  function createSlice(slice: any, cfID: string, index: number) {
     const clonedItemAmount = donationAmountTemplate?.cloneNode(true);
     if (clonedItemAmount) {
       const newElAmount = donationAmountTemplateContainer?.appendChild(
@@ -150,9 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
         "id",
         `${cfID}${slice.idDonation.toString()}`
       );
-      newElAmountInput?.setAttribute("aria-label", "Dona ");
       newElAmountInput?.setAttribute("value", codiceAvviso.toString());
       newElAmountInput?.setAttribute("aria-label", `Dona ${amount}`);
+      newElAmountInput?.setAttribute("tabindex", `${index + 4}`);
+      newElAmountInput?.parentElement?.setAttribute("aria-hidden", "false");
       if (newElAmountLabel) {
         newElAmountLabel?.setAttribute(
           "for",
@@ -163,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       newElAmount.addEventListener("change", (_e) => {
         verify?.removeAttribute("disabled");
+        verify?.focus();
       });
     }
   }
@@ -170,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // eslint-disable-next-line sonarjs/cognitive-complexity
   function listEnti(data: Array<DonationItem>) {
     // create an Ente element for every result
-    data.forEach((element: DonationItem) => {
+    data.forEach((element: DonationItem, index: number) => {
       const clonedItem = donationEnteTemplate?.cloneNode(true);
       const cfID = element.cf.toString();
       if (clonedItem) {
@@ -203,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
         labelEl.setAttribute("for", cfID);
         if (descEl && element.reason) {
           descEl.setAttribute("id", `desc${cfID}`);
+          newEl.setAttribute("tabindex", `${index}`);
           // eslint-disable-next-line functional/immutable-data
           descEl.innerText = element.reason;
         } else {
@@ -210,6 +213,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (urlEl && urlAnchorEl && element.web_site) {
           urlAnchorEl.setAttribute("href", element.web_site);
+          urlAnchorEl.setAttribute(
+            "title",
+            `Per saperne di più su ${element.name}`
+          );
+          urlAnchorEl.setAttribute(
+            "aria-label",
+            `Per saperne di più su ${element.name}`
+          );
         } else {
           urlEl.remove();
         }
@@ -225,8 +236,8 @@ document.addEventListener("DOMContentLoaded", () => {
           logoEl.remove();
         }
 
-        element.slices.forEach((slice: SliceItem) => {
-          createSlice(slice, cfID);
+        element.slices.forEach((slice: SliceItem, index: number) => {
+          createSlice(slice, cfID, index);
         });
 
         newEl.setAttribute("aria-hidden", "false");
@@ -249,6 +260,8 @@ document.addEventListener("DOMContentLoaded", () => {
           donationFor?.classList.add("selectiondone");
           donationAmount?.classList.remove("disabled");
           donationEdit?.classList.add("active");
+          donationAmount?.setAttribute("aria-hidden", "false");
+          donationAmount?.focus();
         });
       }
     });
