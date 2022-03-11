@@ -890,6 +890,10 @@ body.donation {
         box-shadow: none;
       }
     }
+    &__item__logo {
+      height: 64px;
+      width: auto;
+    }
   }
 }
 
