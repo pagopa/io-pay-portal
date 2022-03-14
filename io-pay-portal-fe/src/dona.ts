@@ -281,6 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const donationForItemElements: NodeListOf<HTMLElement> | null =
       document.querySelectorAll("[data-depend]") || null;
     verify?.setAttribute("disabled", "disabled");
+    donationByApp?.setAttribute("disabled", "disabled");
     donationFor?.classList.remove("selectiondone");
     donationAmount?.classList.add("disabled");
     donationEdit?.classList.remove("active");
