@@ -855,6 +855,13 @@ body {
 body.donation {
   .form-check-group label {
     line-height: 1.5;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #17324D;
+  }
+  small.donation__for__item__desc, small.donation__for__item__url {
+    opacity: 1 !important;
+    font-size: 0.875rem;
   }
   .donation__edit {
     display: none;
