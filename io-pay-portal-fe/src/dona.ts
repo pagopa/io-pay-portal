@@ -1,6 +1,8 @@
+/* eslint complexity: ["error", 22] */
 import { fromNullable } from "fp-ts/lib/Option";
 import Tingle from "tingle.js";
 import { Millisecond } from "italia-ts-commons/lib/units";
+import QRCode from "easyqrcodejs";
 import { PaymentRequestsGetResponse } from "../generated/PaymentRequestsGetResponse";
 import { RptId } from "../generated/RptId";
 import {
@@ -137,12 +139,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".donation__loading__retry") || null;
   const donationsServiceURL: string =
     (getConfig("IO_PAY_PORTAL_DONATIONS_URL") as string) || "";
+  const donationByApp: HTMLElement | null =
+    document.getElementById("donation_by_app") || null;
 
   mixpanel.track(DONATION_INIT_SESSION.value, {
     EVENT_ID: DONATION_INIT_SESSION.value,
   });
 
-  function createSlice(slice: any, cfID: string, index: number) {
+  function createSlice(slice: SliceItem, cfID: string, index: number) {
     const clonedItemAmount = donationAmountTemplate?.cloneNode(true);
     if (clonedItemAmount) {
       const newElAmount = donationAmountTemplateContainer?.appendChild(
@@ -162,6 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       newElAmountInput?.setAttribute("value", codiceAvviso.toString());
       newElAmountInput?.setAttribute("aria-label", `Dona ${amount}`);
+      newElAmountInput?.setAttribute("data-amount", `${slice.amount}`);
       newElAmountInput?.setAttribute("tabindex", `${index + 4}`);
       newElAmountInput?.parentElement?.setAttribute("aria-hidden", "false");
       if (newElAmountLabel) {
@@ -173,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
         newElAmountLabel.innerText = amount;
       }
       newElAmount.addEventListener("change", (_e) => {
+        donationByApp?.removeAttribute("disabled");
         verify?.removeAttribute("disabled");
         verify?.focus();
       });
@@ -285,6 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const donationForItemElements: NodeListOf<HTMLElement> | null =
       document.querySelectorAll("[data-depend]") || null;
     verify?.setAttribute("disabled", "disabled");
+    donationByApp?.setAttribute("disabled", "disabled");
     donationFor?.classList.remove("selectiondone");
     donationAmount?.classList.add("disabled");
     donationEdit?.classList.remove("active");
@@ -307,6 +314,47 @@ document.addEventListener("DOMContentLoaded", () => {
   donationsLoadingRetry?.addEventListener("click", async (e: Event) => {
     e.preventDefault();
     window.location.reload();
+  });
+
+  donationByApp?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const modalTarget = document.getElementById("modal-qrcode") || null;
+    const donationFor: HTMLInputElement | null =
+      (getDonationFor() as HTMLInputElement) || null;
+    const donationAmount: HTMLInputElement | null =
+      (getDonationAmount() as HTMLInputElement) || null;
+    const stringToSet = `PAGOPA|002|${donationAmount?.value || 0}|${
+      donationFor?.value || 0
+    }|${donationAmount?.getAttribute("data-amount") || 0}`;
+    const options = { text: stringToSet, width: 164, height: 164 };
+    const modalWindow = new Tingle.modal({
+      footer: true,
+      stickyFooter: false,
+      closeLabel: "Chiudi",
+      cssClass: ["modal-qrcode"],
+      onOpen: () => {
+        const modalClose = modalWindow
+          .getContent()
+          .querySelector(".modalwindow__close");
+        modalClose?.addEventListener("click", () => {
+          modalWindow.close();
+        });
+      },
+      onClose: () => {
+        modalWindow.destroy();
+      },
+    });
+    modalWindow.addFooterBtn(
+      "Chiudi",
+      "btn btn-outline-primary w-100",
+      function () {
+        modalWindow.close();
+      }
+    );
+    modalWindow.setContent(modalTarget?.innerHTML || " ");
+    const qrcodeElement = document.querySelector(".modal-qrcode .qrcode");
+    new QRCode(qrcodeElement, options);
+    modalWindow.open();
   });
 
   window
@@ -336,16 +384,24 @@ document.addEventListener("DOMContentLoaded", () => {
     modalWindowError(errorMessage);
   }
 
+  const getDonationFor = function () {
+    return document.querySelector('input[name="donationFor"]:checked');
+  };
+  const getDonationAmount = function () {
+    return document.querySelector('input[name="donationAmount"]:checked');
+  };
+
   /**
    * recaptchaCallback: call api to verify payment
    */
   // eslint-disable-next-line functional/immutable-data
   (window as any).recaptchaCallback = async (recaptchaResponse: string) => {
     error?.classList.add("d-none");
+
     const donationFor: HTMLInputElement | null =
-      document.querySelector('input[name="donationFor"]:checked') || null;
+      (getDonationFor() as HTMLInputElement) || null;
     const donationAmount: HTMLInputElement | null =
-      document.querySelector('input[name="donationAmount"]:checked') || null;
+      (getDonationAmount() as HTMLInputElement) || null;
     const paymentNoticeCode: string = fromNullable(
       donationAmount?.value
     ).getOrElse("");

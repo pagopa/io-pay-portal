@@ -1,0 +1,14 @@
+.modalwindow(id="modal-qrcode")
+    .d-flex
+        h4.modalwindow__title Paga con IO
+        svg.icon.ml-auto.modalwindow__close.cursor-pointer(aria-controls="modal-qrcode", role="button", aria-label="Chiudi")
+            title Chiudi modale
+            use(href="/assets/icons/sprite.svg#it-close")
+    .modalwindow__content.mb-3
+        div.pb-3 Apri la sezione 
+            b.font-weight-semibold Portafoglio, 
+            span premi 
+            b.font-weight-semibold Paga un avviso 
+            span e inquadra il codice:
+        div.qrcode.text-center
+        div.pt-3 Completato il pagamento su IO, chiudi questa finestra per proseguire la navigazione
