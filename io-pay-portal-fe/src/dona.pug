@@ -72,9 +72,17 @@ html(lang='it')
                                     .donation__by.py-4
                                         .row
                                             .col-6 
-                                                button.btn.btn-primary.btn-sm.w-100(disabled, id="donation_by_app") Dona con l'app IO 
+                                                button.d-flex.align-items-center.justify-content-center.btn.btn-primary.btn-sm.w-100(disabled, id="donation_by_app") 
+                                                    svg.icon.icon-sm.d-none.d-sm-block.mr-2(aria-hidden="true")
+                                                        title IO app
+                                                        use(href="/assets/icons/app.svg#appIO")
+                                                    span.d-block.line-height-1 Dona con l'app IO 
                                             .col-6 
-                                                button.btn.btn-primary.btn-sm.w-100(type="submit", data-lang="cta.continue", id="verify", disabled) Dona con carta 
+                                                button.d-flex.align-items-center.justify-content-center.btn.btn-primary.btn-sm.w-100(type="submit", data-lang="cta.continue", id="verify", disabled)
+                                                    svg.icon.icon-sm.d-none.d-sm-block.mr-2(aria-hidden="true")
+                                                        title Continua
+                                                        use(href="/assets/icons/app.svg#creditcard--white")
+                                                    span.d-block.line-height-1 Dona con carta 
                                     .my-5.text-muted
                                         p.mb-0 Premendo 'Continua' dichiari di aver letto e compreso l'
                                             a(href="#", id="privacy") Informativa Privacy e i Termini e condizioni d’uso del servizio.
