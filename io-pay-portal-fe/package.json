@@ -22,6 +22,7 @@
   "dependencies": {
     "@types/mixpanel-browser": "^2.35.6",
     "abort-controller": "^3.0.0",
+    "easyqrcodejs": "^4.4.10",
     "jquery": "^3.5.1",
     "lodash": "^4.17.21",
     "mixpanel-browser": "^2.41.0",

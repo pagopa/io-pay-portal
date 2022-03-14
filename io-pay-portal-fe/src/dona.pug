@@ -61,14 +61,20 @@ html(lang='it')
                                     .it-list-wrapper
                                         ul.it-list.list-unstyled.row(role="list", tabindex="3")
                                             li.col-4.pt-2.d-none(data-template="donation-amount", data-depend="", role="list-item", aria-hidden="true")
-                                                input.sr-only(id="", type="radio", aria-label="", name="donationAmount")
+                                                input.sr-only(id="", type="radio", aria-label="", name="donationAmount", data-amount="")
                                                 label(for="",aria-hidden="true").btn.btn-outline-primary.w-100
                                     div.d-flex.align-items-center(role="alert")
                                         div.pr-2(aria-hidden="true")
                                             svg.float-right.icon-expand.icon.icon-sm.icon-secondary
                                                 title Info
                                                 use(href="/assets/icons/sprite.svg#it-info-circle")
-                                        div Per donare importi superiori puoi ripetere la donazione più volte
+                                        div Puoi donare con carta di credito, debito o prepagata, senza costi di commissione
+                                    .donation__by.py-4
+                                        .row
+                                            .col-6 
+                                                button.btn.btn-primary.btn-sm.w-100(disabled, id="donation_by_app") Dona con l'app IO 
+                                            .col-6 
+                                                button.btn.btn-primary.btn-sm.w-100(type="submit", data-lang="cta.continue", id="verify", disabled) Dona con carta 
                                     .my-5.text-muted
                                         p.mb-0 Premendo 'Continua' dichiari di aver letto e compreso l'
                                             a(href="#", id="privacy") Informativa Privacy e i Termini e condizioni d’uso del servizio.
@@ -81,7 +87,6 @@ html(lang='it')
                                     .container
                                         .windowcont__bottom__wrap.d-flex
                                             div(id="recaptcha")
-                                            button.btn.btn-primary.btn-sm.flex-grow-1(type="submit", data-lang="cta.continue", id="verify", disabled) Continua
                     div(id="stateCard", tabindex="1", role="region", aria-live="polite").windowcont.px-4.px-md-0.d-none
                         .h2 Avviso di pagamento
                         p.reset-font-size.text-muted pagoPA aggiorna automaticamente l’importo per assicurarti di aver pagato esattamente quanto dovuto ed evitarti così more o altri interessi.
@@ -109,3 +114,4 @@ html(lang='it')
             include includes/footer.pug
             include includes/modal.pug
             include includes/modalerror.pug
+            include includes/modalqrcode.pug
