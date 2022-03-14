@@ -16,7 +16,13 @@ import {
   showActivationError,
 } from "./util/errors";
 import { ErrorModal } from "./util/errors-def";
-import { mixpanelInit } from "./util/mixpanelHelperInit";
+import {
+  mixpanelInit,
+  mixpanel,
+  DONATION_INIT_SESSION,
+  DONATION_LIST_SUCCESS,
+  DONATION_LIST_ERROR,
+} from "./util/mixpanelHelperInit";
 
 type SliceItem = {
   idDonation: string | number;
@@ -131,6 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".donation__loading__retry") || null;
   const donationsServiceURL: string =
     (getConfig("IO_PAY_PORTAL_DONATIONS_URL") as string) || "";
+
+  mixpanel.track(DONATION_INIT_SESSION.value, {
+    EVENT_ID: DONATION_INIT_SESSION.value,
+  });
 
   function createSlice(slice: any, cfID: string, index: number) {
     const clonedItemAmount = donationAmountTemplate?.cloneNode(true);
@@ -306,6 +316,9 @@ document.addEventListener("DOMContentLoaded", () => {
       donationsLoading?.classList.add("d-none");
       donationsLoading?.classList.remove("d-flex");
       donationFor?.classList.remove("d-none");
+      mixpanel.track(DONATION_LIST_SUCCESS.value, {
+        EVENT_ID: DONATION_LIST_SUCCESS.value,
+      });
       listEnti(data);
     })
     .catch((_error) => {
@@ -313,6 +326,9 @@ document.addEventListener("DOMContentLoaded", () => {
       donationsLoadingError?.classList.add("d-flex");
       donationsLoading?.classList.remove("d-flex");
       donationsLoading?.classList.add("d-none");
+      mixpanel.track(DONATION_LIST_ERROR.value, {
+        EVENT_ID: DONATION_LIST_ERROR.value,
+      });
     });
 
   function showErrorMessage(r: string): void {
