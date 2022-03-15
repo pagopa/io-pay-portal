@@ -141,6 +141,9 @@ document.addEventListener("DOMContentLoaded", () => {
     (getConfig("IO_PAY_PORTAL_DONATIONS_URL") as string) || "";
   const donationByApp: HTMLElement | null =
     document.getElementById("donation_by_app") || null;
+  const mobileViewport = getComputedStyle(
+    document.documentElement
+  ).getPropertyValue("--breakpoint-sm");
 
   mixpanel.track(DONATION_INIT_SESSION.value, {
     EVENT_ID: DONATION_INIT_SESSION.value,
@@ -318,6 +321,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   donationByApp?.addEventListener("click", async (e) => {
     e.preventDefault();
+    const isMobileDevice = window.matchMedia(
+      `only screen and (max-width: ${mobileViewport})`
+    ).matches;
+    const toUrl =
+      (e.currentTarget as HTMLElement).getAttribute("data-url") || "";
+
+    if (isMobileDevice && toUrl) {
+      window.open(toUrl, "_blank")?.focus();
+      return;
+    }
+
     const modalTarget = document.getElementById("modal-qrcode") || null;
     const donationFor: HTMLInputElement | null =
       (getDonationFor() as HTMLInputElement) || null;
