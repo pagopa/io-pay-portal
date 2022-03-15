@@ -68,7 +68,7 @@ html(lang='it')
                                             svg.float-right.icon-expand.icon.icon-sm.icon-secondary
                                                 title Info
                                                 use(href="/assets/icons/sprite.svg#it-info-circle")
-                                        div Puoi donare con carta di credito, debito o prepagata, senza costi di commissione
+                                        div Puoi donare con carta di credito, debito o prepagata, senza costi di commissione.
                                     .donation__by.py-4
                                         .row
                                             .col-6 
@@ -83,10 +83,10 @@ html(lang='it')
                                                         title Continua
                                                         use(href="/assets/icons/app.svg#creditcard--white")
                                                     span.d-block.line-height-1 Dona con carta 
-                                    div Dopo la donazione, riceverai un'email con i dati utili ai fini della detrazione.
+                                    div Dona con l’app IO per ricevere un’e-mail con i dati utili ai fini delle agevolazioni fiscali.
                                     hr(aria-hidden="true")
                                     .my-3.text-muted
-                                        p.mb-0 Premendo 'Continua' dichiari di aver letto e compreso l'
+                                        p.mb-0 Proseguendo dichiari di aver letto e compreso l'
                                             a(href="#", id="privacy") Informativa Privacy e i Termini e condizioni d’uso del servizio.
                                         p Form protetto tramite reCAPTCHA e Google (
                                             a(href="https://policies.google.com/privacy", target="_blank", title="Privacy Policy Google") Privacy Policy 
@@ -98,8 +98,7 @@ html(lang='it')
                                         .windowcont__bottom__wrap.d-flex
                                             div(id="recaptcha")
                     div(id="stateCard", tabindex="1", role="region", aria-live="polite").windowcont.px-4.px-md-0.d-none
-                        .h2 Avviso di pagamento
-                        p.reset-font-size.text-muted pagoPA aggiorna automaticamente l’importo per assicurarti di aver pagato esattamente quanto dovuto ed evitarti così more o altri interessi.
+                        .h2 Dati del pagamento
                         .stateCard__detail.check
                             .windowcont__totamount.d-flex.align-items-end.border-bottom.border-bottom-gray.py-2
                                 .h5 Importo aggiornato
@@ -108,7 +107,7 @@ html(lang='it')
                                 div.text-muted Ente Creditore
                                 div.font-weight-bold(id="ec") 
                             .windowcont__caus.py-2.mt-2.border-bottom.border-bottom-gray.reset-font-size
-                                div.text-muted Causale
+                                div.text-muted Oggetto del pagamento
                                 div.font-weight-bold.text-break(id="causale") 
                             .windowcont__cfec.py-2.mt-2.border-bottom.border-bottom-gray.reset-font-size.d-flex
                                 div.text-muted Codice Fiscale Ente Creditore
@@ -118,7 +117,7 @@ html(lang='it')
                                     div(id="preActivationRecaptcha")
                                     .windowcont__bottom__wrap.d-flex
                                         a.btn.btn-outline-primary.btn-sm.mr-2(href="#", data-lang="cta.cancel", id="back") Indietro
-                                        button.btn.btn-primary.btn-sm.flex-grow-1(type="submit", data-lang="cta.continue", id="active") Paga questo avviso
+                                        button.btn.btn-primary.btn-sm.flex-grow-1(type="submit", data-lang="cta.continue", id="active") Vai al pagamento
 
             // FOOTER
             include includes/footer.pug
