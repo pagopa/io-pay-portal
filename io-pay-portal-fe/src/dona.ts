@@ -434,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
         (paymentInfo) => {
           sessionStorage.setItem("paymentInfo", JSON.stringify(paymentInfo));
           sessionStorage.setItem("rptId", rptId);
-          history.pushState(null, "", "/#stateCard");
+          history.pushState(null, "", "#stateCard");
           // eslint-disable-next-line functional/immutable-data
           document.body.scrollTop = 0; // For Safari
           // eslint-disable-next-line functional/immutable-data
