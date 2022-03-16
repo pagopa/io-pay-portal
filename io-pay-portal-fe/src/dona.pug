@@ -44,8 +44,8 @@ html(lang='it')
                                 div Non siamo riusciti a caricare la lista delle organizzazioni.&nbsp;
                                     a.donation__loading__retry.font-weight-semibold(href="#", title="Riprova") Riprova
                             form.my-5(id="firstindexform", role="form", aria-label="A chi vuoi donare?", tabindex="0")
-                                .my-2.donation__for.d-none
-                                    .form-check.form-check-group.d-none(aria-hidden="true", data-template="donation-ente", role="list")
+                                .my-2.donation__for.d-none(role="list")
+                                    .form-check.form-check-group.d-none.cursor-pointer(aria-hidden="true", data-template="donation-ente", role="listitem")
                                         div
                                             img.donation__for__item__logo(aria-hidden="true", src="", alt="Logo beneficiario")
                                         div.ml-2.flex-grow-1(role="listitem")
