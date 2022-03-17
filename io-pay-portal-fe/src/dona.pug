@@ -44,8 +44,8 @@ html(lang='it')
                                 div Non siamo riusciti a caricare la lista delle organizzazioni.&nbsp;
                                     a.donation__loading__retry.font-weight-semibold(href="#", title="Riprova") Riprova
                             form.my-5(id="firstindexform", role="form", aria-label="A chi vuoi donare?", tabindex="0")
-                                .my-2.donation__for.d-none
-                                    .form-check.form-check-group.d-none(aria-hidden="true", data-template="donation-ente", role="list")
+                                .my-2.donation__for.d-none(role="list")
+                                    .form-check.form-check-group.d-none.cursor-pointer(aria-hidden="true", data-template="donation-ente", role="listitem")
                                         div
                                             img.donation__for__item__logo(aria-hidden="true", src="", alt="Logo beneficiario")
                                         div.ml-2.flex-grow-1(role="listitem")
@@ -76,13 +76,13 @@ html(lang='it')
                                                     svg.icon.icon-sm.d-none.d-sm-block.mr-2(aria-hidden="true")
                                                         title IO app
                                                         use(href="/assets/icons/app.svg#appIO")
-                                                    span.d-block.line-height-1 Dona con l'app IO 
+                                                    span.d-block.py-2.py-sm-0.line-height-1 Dona con l'app IO 
                                             .col-6 
                                                 button.d-flex.align-items-center.justify-content-center.btn.btn-primary.btn-sm.w-100(type="submit", data-lang="cta.continue", id="verify", disabled)
                                                     svg.icon.icon-sm.d-none.d-sm-block.mr-2(aria-hidden="true")
                                                         title Continua
                                                         use(href="/assets/icons/app.svg#creditcard--white")
-                                                    span.d-block.line-height-1 Dona con carta 
+                                                    span.d-block.py-2.py-sm-0.line-height-1 Dona con carta 
                                     div Dona con l’app IO per ricevere un’e-mail con i dati utili ai fini delle agevolazioni fiscali.
                                     hr(aria-hidden="true")
                                     .my-3.text-muted

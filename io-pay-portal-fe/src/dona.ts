@@ -263,7 +263,23 @@ document.addEventListener("DOMContentLoaded", () => {
         newEl.classList.remove("d-none");
         newEl.classList.add("d-flex");
 
-        newEl.addEventListener("change", async (e) => {
+        newEl.addEventListener("click", async (e) => {
+          const event = new Event("change");
+          const target = e.target as HTMLElement;
+          const inputEl = (e.currentTarget as HTMLInputElement).querySelector(
+            "input"
+          );
+          if (target && target.nodeName === "A") {
+            return;
+          }
+          if (inputEl) {
+            inputEl.dispatchEvent(event);
+            // eslint-disable-next-line functional/immutable-data
+            inputEl.checked = true;
+          }
+        });
+
+        inputEl.addEventListener("change", async (e) => {
           (e.target as HTMLInputElement).parentElement?.parentElement?.classList.add(
             "selected"
           );
@@ -321,6 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   donationByApp?.addEventListener("click", async (e) => {
     e.preventDefault();
+    e.stopImmediatePropagation();
     const isMobileDevice = window.matchMedia(
       `only screen and (max-width: ${mobileViewport})`
     ).matches;
@@ -434,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
         (paymentInfo) => {
           sessionStorage.setItem("paymentInfo", JSON.stringify(paymentInfo));
           sessionStorage.setItem("rptId", rptId);
-          history.pushState(null, "", "/#stateCard");
+          history.pushState(null, "", "#stateCard");
           // eslint-disable-next-line functional/immutable-data
           document.body.scrollTop = 0; // For Safari
           // eslint-disable-next-line functional/immutable-data
