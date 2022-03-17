@@ -263,11 +263,13 @@ document.addEventListener("DOMContentLoaded", () => {
         newEl.classList.remove("d-none");
         newEl.classList.add("d-flex");
 
-        newEl.addEventListener("click", async (e)=> {
-          const event = new Event('change');
-          const target = (e.target as HTMLElement);
-          const inputEl = (e.currentTarget as HTMLInputElement).querySelector("input");
-          if (target && target.nodeName==="A") {
+        newEl.addEventListener("click", async (e) => {
+          const event = new Event("change");
+          const target = e.target as HTMLElement;
+          const inputEl = (e.currentTarget as HTMLInputElement).querySelector(
+            "input"
+          );
+          if (target && target.nodeName === "A") {
             return;
           }
           if (inputEl) {
@@ -275,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // eslint-disable-next-line functional/immutable-data
             inputEl.checked = true;
           }
-        })
+        });
 
         inputEl.addEventListener("change", async (e) => {
           (e.target as HTMLInputElement).parentElement?.parentElement?.classList.add(
