@@ -389,7 +389,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window
-    .fetch(donationsServiceURL)
+    .fetch(donationsServiceURL, {
+      method: "GET",
+      cache: "reload",
+    })
     .then((response) => response.json())
     .then((data) => {
       donationsLoading?.classList.add("d-none");
