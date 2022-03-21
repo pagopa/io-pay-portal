@@ -3,6 +3,7 @@ import { fromNullable } from "fp-ts/lib/Option";
 import Tingle from "tingle.js";
 import { Millisecond } from "italia-ts-commons/lib/units";
 import QRCode from "easyqrcodejs";
+import e from "express";
 import { PaymentRequestsGetResponse } from "../generated/PaymentRequestsGetResponse";
 import { RptId } from "../generated/RptId";
 import {
@@ -24,6 +25,7 @@ import {
   DONATION_INIT_SESSION,
   DONATION_LIST_SUCCESS,
   DONATION_LIST_ERROR,
+  DONATION_URL_VISIT,
 } from "./util/mixpanelHelperInit";
 
 type SliceItem = {
@@ -240,6 +242,13 @@ document.addEventListener("DOMContentLoaded", () => {
             "aria-label",
             `Per saperne di più su ${element.name}`
           );
+
+          urlAnchorEl.addEventListener("click", async (e) => {
+            mixpanel.track(DONATION_URL_VISIT.value, {
+              orgCF: cfID,
+              orgUrl: element.web_site,
+            });
+          });
         } else {
           urlEl.remove();
         }
