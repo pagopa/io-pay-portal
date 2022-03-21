@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
             `Per saperne di più su ${element.name}`
           );
 
-          urlAnchorEl.addEventListener("click", async (e) => {
+          urlAnchorEl.addEventListener("click", async (_e) => {
             mixpanel.track(DONATION_URL_VISIT.value, {
               orgCF: cfID,
               orgUrl: element.web_site,
