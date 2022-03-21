@@ -3,7 +3,6 @@ import { fromNullable } from "fp-ts/lib/Option";
 import Tingle from "tingle.js";
 import { Millisecond } from "italia-ts-commons/lib/units";
 import QRCode from "easyqrcodejs";
-import e from "express";
 import { PaymentRequestsGetResponse } from "../generated/PaymentRequestsGetResponse";
 import { RptId } from "../generated/RptId";
 import {
