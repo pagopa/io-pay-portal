@@ -409,6 +409,9 @@ document.addEventListener("DOMContentLoaded", () => {
       mixpanel.track(DONATION_LIST_SUCCESS.value, {
         EVENT_ID: DONATION_LIST_SUCCESS.value,
       });
+      data.sort((first: { name: string }, second: { name: string }) =>
+        first.name > second.name ? 1 : -1
+      );
       listEnti(data);
     })
     .catch((_error) => {
