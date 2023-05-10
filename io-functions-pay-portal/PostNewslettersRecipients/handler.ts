@@ -209,6 +209,7 @@ export const getMailupAuthTokenTask = (
 export const addRecipientToMailupListOrGroupTask = (
   email: EmailString,
   name: string | undefined,
+  surname: string | undefined,
   organization: string | undefined,
   token: NonEmptyString,
   path: string,
@@ -217,10 +218,20 @@ export const addRecipientToMailupListOrGroupTask = (
   tryCatch(
     () => {
       const request =
+        name !== undefined ||
+        surname !== undefined ||
         organization !== undefined
           ? {
               Email: email,
               Fields: [
+                {
+                  Description: "Name",
+                  Value: name
+                },
+                {
+                  Description: "Surname",
+                  Value: surname
+                },
                 {
                   Description: "Organization",
                   Value: organization
@@ -273,6 +284,7 @@ export const addRecipientToMailupTask = (
   idList: NonEmptyString,
   email: EmailString,
   name: string | undefined,
+  surname: string | undefined,
   token: NonEmptyString,
   groups: readonly string[] | undefined,
   organization: string | undefined
@@ -281,6 +293,7 @@ export const addRecipientToMailupTask = (
     ? addRecipientToMailupListOrGroupTask(
         email,
         name,
+        surname,
         organization,
         token,
         `/API/v1.1/Rest/ConsoleService.svc/Console/List/${idList}/Recipient?ConfirmEmail=true`
@@ -289,6 +302,7 @@ export const addRecipientToMailupTask = (
         addRecipientToMailupListOrGroupTask(
           email,
           name,
+          surname,
           organization,
           token,
           `/API/v1.1/Rest/ConsoleService.svc/Console/Group/${idGroup}/Recipient?ConfirmEmail=true`
@@ -321,6 +335,7 @@ export function PostNewslettersRecipientsHandler(): IPostNewslettersRecipientsHa
           listId,
           recipientRequest.email,
           recipientRequest.name,
+          recipientRequest.surname,
           authMailupResponse.access_token,
           recipientRequest.groups,
           recipientRequest.organization

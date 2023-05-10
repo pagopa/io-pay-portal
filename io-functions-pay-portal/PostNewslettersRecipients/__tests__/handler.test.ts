@@ -302,6 +302,8 @@ describe("PostNewslettersRecipientHandler", () => {
       .addRecipientToMailupListOrGroupTask(
         "test@test.it" as EmailString,
         "name",
+        "surname",
+        "organization",
         "token" as NonEmptyString,
         `/API/v1.1/Rest/ConsoleService.svc/Console/Group/6/Recipient`
       )
@@ -323,6 +325,8 @@ describe("PostNewslettersRecipientHandler", () => {
       .addRecipientToMailupListOrGroupTask(
         "test@test.it" as EmailString,
         "name",
+        "surname",
+        "organization",
         "token" as NonEmptyString,
         `/API/v1.1/Rest/ConsoleService.svc/Console/Group/6/Recipient`
       )
@@ -338,6 +342,8 @@ describe("PostNewslettersRecipientHandler", () => {
       .addRecipientToMailupListOrGroupTask(
         "test@test.it" as EmailString,
         "name",
+        "surname",
+        "organization",
         "token" as NonEmptyString,
         `/API/v1.1/Rest/ConsoleService.svc/Console/Group/6/Recipient`
       )
@@ -359,6 +365,8 @@ describe("PostNewslettersRecipientHandler", () => {
       .addRecipientToMailupListOrGroupTask(
         "test@test.it" as EmailString,
         "name",
+        "surname",
+        "organization",
         "token" as NonEmptyString,
         `/API/v1.1/Rest/ConsoleService.svc/Console/Group/6/Recipient`
       )
@@ -380,6 +388,8 @@ describe("PostNewslettersRecipientHandler", () => {
       .addRecipientToMailupListOrGroupTask(
         "test@test.it" as EmailString,
         "name",
+        "surname",
+        "organization",
         "token" as NonEmptyString,
         `/API/v1.1/Rest/ConsoleService.svc/Console/Group/6/Recipient`
       )
