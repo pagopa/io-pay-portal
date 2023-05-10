@@ -213,6 +213,8 @@ definitions:
       properties:
         name:
           type: string
+        surname:
+          type: string
         email:
           type: string
           format: email
