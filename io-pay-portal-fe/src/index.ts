@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const modalWindow = new Tingle.modal({
         footer: true,
         stickyFooter: false,
-        cssClass: ["xl"],
+        cssClass: ["xl", "overflowed"],
         closeLabel: "Chiudi",
         onOpen: () => {
           const modalContent = modalWindow.getContent();
